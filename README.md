@@ -21,6 +21,7 @@ We welcome [issues](https://github.com/CircleCI-Public/aws-s3-orb/issues) to and
 
 To publish a new production version:
 * Create a PR to the `Alpha` branch with your changes. This will act as a "staging" branch.
+* Ensure any changes are tested by adding a new test job to your repository.
 * When ready to publish a new production version, create a PR from `Alpha` to `master`. The Git Subject should include `[semver:patch|minor|release|skip]` to indicate the type of release.
 * On merge, the release will be published to the orb registry automatically.
 
