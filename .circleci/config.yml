@@ -83,7 +83,7 @@ workflows:
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
 
-      # an example job
+      # Run Copy and Sync commands. Requires credentials. These are already set in the CircleCI Project
       - integration-test-1
 
       # publish a semver version of the orb. relies on
