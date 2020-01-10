@@ -25,10 +25,22 @@ jobs:
   # Rename this job and add more as needed.
   #
   integration-test-1:
-    executor: orb-tools/ubuntu
+    docker:
+        - image: cimg/python:3.6
     steps:
       - checkout
-    # - your-orb/your-orb-command
+      - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+      - aws-s3/sync:
+          from: bucket
+          to: "s3://my-s3-bucket-name/prefix"
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          overwrite: true
+      - aws-s3/copy:
+          from: bucket/build_asset.txt
+          to: "s3://my-s3-bucket-name"
+          arguments: --dryrun
 
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.

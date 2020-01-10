@@ -1,14 +1,6 @@
 # aws-s3 Orb [![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/aws-s3-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/aws-s3-orb) [![CircleCI Orb Version](https://img.shields.io/badge/endpoint.svg?url=https://badges.circleci.io/orb/circleci/aws-s3)](https://circleci.com/orbs/registry/orb/circleci/aws-s3) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/CircleCI-Public/aws-s3-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
 
-A description of your orb. Utilize this orb to easily add X to your CI/CD pipeline.
-
-**TODO:**
-Publish your production orb! You may notice the badges above and links to the registry page below are not working yet, once you publish your first production version orb, these will begin to function.
-
-What to do:
-* Make changes to your `Alpha` branch.
-* Flush out your integration test jobs
-* Merge to `master` with "`[semver:major]`" in the commit subject to publish 1.0.0 of your orb.
+  Integrate Amazon AWS S3 with your CircleCI CI/CD pipeline easily with the aws-s3 orb.
 
 
 ## Usage
@@ -20,6 +12,8 @@ Example use-cases are provided on the orb [registry page](https://circleci.com/o
 
 [CircleCI Orb Registry Page](https://circleci.com/orbs/registry/orb/circleci/aws-s3) - The official registry page of this orb for all versions, executors, commands, and jobs described.  
 [CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration) - Docs for using and creating CircleCI Orbs.  
+
+AWS S3 Docs: https://docs.aws.amazon.com/s3/index.html
 
 ### How To Contribute
 
