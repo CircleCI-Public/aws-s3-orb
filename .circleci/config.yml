@@ -26,7 +26,7 @@ jobs:
   #
   integration-test-1:
     docker:
-        - image: cimg/python:3.6
+      - image: cimg/python:3.6
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
@@ -58,6 +58,7 @@ workflows:
       # if using Contexts, add your context below
       - orb-tools/publish-dev:
           orb-name: circleci/aws-s3
+          context: orb-publishing
           requires:
             - orb-tools/pack
 
@@ -65,6 +66,7 @@ workflows:
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
+          context: orb-publishing
           requires:
             - orb-tools/publish-dev
 
