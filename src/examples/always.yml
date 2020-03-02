@@ -1,0 +1,17 @@
+description: >
+  You may direct the S3 orb to always run, regardless of previous steps status
+usage:
+  version: 2.1
+  orbs:
+    aws-s3: circleci/aws-s3@x.y
+  jobs:
+    build:
+      docker:
+        - image: cimg/python:3.6
+      steps:
+        - checkout
+        - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+        - aws-s3/copy:
+            from: bucket/build_asset.txt
+            to: "s3://my-s3-bucket-name"
+            when: always
