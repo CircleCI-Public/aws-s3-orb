@@ -32,14 +32,20 @@ parameters:
     type: env_var_name
     description: aws region override
     default: AWS_REGION
+  when:
+    type: string
+    description: 'equivalent to the "when" attribute of job steps'
+    default: 'on_success'
 steps:
   - aws-cli/setup:
       aws-access-key-id: << parameters.aws-access-key-id >>
       aws-secret-access-key: << parameters.aws-secret-access-key >>
       aws-region: << parameters.aws-region >>
+      when: << parameters.when >>
   - deploy:
       name: S3 Sync
       command: |
         aws s3 sync \
           <<parameters.from>> <<parameters.to>><<#parameters.overwrite>> --delete<</parameters.overwrite>><<#parameters.arguments>> \
           <<parameters.arguments>><</parameters.arguments>>
+      when: << parameters.when >>

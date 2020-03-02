@@ -24,11 +24,17 @@ parameters:
     type: env_var_name
     description: aws region override
     default: AWS_REGION
+  when:
+    type: string
+    description: 'equivalent to the "when" attribute of job steps'
+    default: 'on_success'
 steps:
   - aws-cli/setup:
       aws-access-key-id: << parameters.aws-access-key-id >>
       aws-secret-access-key: << parameters.aws-secret-access-key >>
       aws-region: << parameters.aws-region >>
+      when: << parameters.when >>
   - run:
       name: S3 Copy << parameters.from >> -> << parameters.to >>
       command: "aws s3 cp << parameters.from >> << parameters.to >><<# parameters.arguments >> << parameters.arguments >><</ parameters.arguments >>"
+      when: << parameters.when >>
