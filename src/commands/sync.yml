@@ -17,9 +17,6 @@ parameters:
       (e.g., `--acl public-read`). Note: if passing a multi-line value
       to this parameter, include `\` characters after each line, so the
       Bash shell can correctly interpret the entire command.
-  overwrite:
-    default: false
-    type: boolean
   aws-access-key-id:
     type: env_var_name
     description: aws access key id override
