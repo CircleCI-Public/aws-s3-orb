@@ -38,5 +38,5 @@ steps:
       name: S3 Sync
       command: |
         aws s3 sync \
-          <<parameters.from>> <<parameters.to>><<#parameters.overwrite>> --delete<</parameters.overwrite>><<#parameters.arguments>> \
+          <<parameters.from>> <<parameters.to>> <<#parameters.arguments>> \
           <<parameters.arguments>><</parameters.arguments>>

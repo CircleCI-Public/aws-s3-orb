@@ -33,7 +33,6 @@ jobs:
       - aws-s3/sync:
           from: bucket
           to: "s3://orb-testing/s3-orb"
-          overwrite: true
       - aws-s3/copy:
           from: bucket/build_asset.txt
           to: "s3://orb-testing"
