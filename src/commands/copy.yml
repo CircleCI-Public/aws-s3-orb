@@ -25,6 +25,14 @@ parameters:
     description: aws region override
     default: AWS_REGION
 steps:
+  - run:
+      name: "Pip Check"
+      command: |
+        # This can likley be removed once this orb exclusively uses the
+        # AWS CLI v2 which bundles its own Python.
+        if ! which pip3;then
+          sudo apt-get update && sudo apt-get install -y python3-pip
+        fi
   - aws-cli/setup:
       aws-access-key-id: << parameters.aws-access-key-id >>
       aws-secret-access-key: << parameters.aws-secret-access-key >>
