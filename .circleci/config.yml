@@ -4,7 +4,7 @@ version: 2.1
 # release must exist.);
 orbs:
   aws-s3: circleci/aws-s3@dev:alpha
-  orb-tools: circleci/orb-tools@9.0
+  orb-tools: circleci/orb-tools@9.3
 
 # Pipeline parameters
 parameters:
@@ -109,7 +109,7 @@ workflows:
           bot-token-variable: GHI_TOKEN
           bot-user: cpe-bot
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
           requires:
             - integration-test-1
             - integration-test-2
