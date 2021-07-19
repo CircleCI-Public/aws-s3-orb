@@ -3,7 +3,7 @@ description: >
 usage:
   version: 2.1
   orbs:
-    aws-s3: circleci/aws-s3@x.y
+    aws-s3: circleci/aws-s3@3.0
   jobs:
     build:
       docker:
@@ -21,3 +21,7 @@ usage:
             from: bucket/build_asset.txt
             to: "s3://my-s3-bucket-name"
             arguments: --dryrun
+  workflows:
+    s3-example:
+      jobs:
+        - build
