@@ -19,10 +19,10 @@ jobs:
       - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
       - aws-s3/sync:
           from: bucket
-          to: "s3://orb-testing/s3-orb"
+          to: "s3://orb-testing-1/s3-orb"
       - aws-s3/copy:
           from: bucket/build_asset.txt
-          to: "s3://orb-testing"
+          to: "s3://orb-testing-1"
   integration-test-2:
     docker:
       - image: cimg/base:stable
@@ -31,10 +31,10 @@ jobs:
       - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
       - aws-s3/sync:
           from: bucket
-          to: "s3://orb-testing/s3-orb"
+          to: "s3://orb-testing-1/s3-orb"
       - aws-s3/copy:
           from: bucket/build_asset.txt
-          to: "s3://orb-testing"
+          to: "s3://orb-testing-1"
 
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.
