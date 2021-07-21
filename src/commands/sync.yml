@@ -1,4 +1,3 @@
-# How to author commands: https://circleci.com/docs/2.0/reusing-config/#authoring-reusable-commands
 description: >
   Syncs directories and S3 prefixes. https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html
 parameters:
