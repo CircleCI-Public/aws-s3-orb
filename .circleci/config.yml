@@ -88,7 +88,7 @@ workflows:
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: circleci/aws-s3
-          context: orb-publishers
+          context: orb-publisher
           add-pr-comment: true
           bot-token-variable: GHI_TOKEN
           bot-user: orb-publisher
