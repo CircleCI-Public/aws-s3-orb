@@ -1,0 +1,39 @@
+description: >
+  use the S3 orb by using aws profile setup. The example below shows copy a file to an S3 bucket using an AWS cli profile. 
+usage:
+  version: 2.1
+  orbs:
+    aws-s3: circleci/aws-s3@3.1
+    aws-cli: circleci/aws-cli@3.1
+  jobs:
+    build:
+      docker:
+        - image: cimg/python:3.6
+      steps:
+        - checkout
+        - aws-cli/setup:
+            profile-name: default
+        - aws-cli/role-arn-setup:
+            profile-name: new-profile
+            role-arn: 'arn:aws:iam::123456789012:role/example-role'
+            source-profile: default        
+          - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+          - aws-s3/sync:
+              aws-skip-setup: true
+              from: bucket
+              to: "s3://my-s3-bucket-name/prefix"
+              arguments: |
+                --acl public-read \
+                --cache-control "max-age=86400"
+                --profile new-profile
+          - aws-s3/copy:
+              aws-skip-setup: true
+              from: bucket/build_asset.txt
+              to: "s3://my-s3-bucket-name"
+              arguments: |
+                --dryrun
+                --profile new-profile
+  workflows:
+    s3-example:
+      jobs:
+        - build

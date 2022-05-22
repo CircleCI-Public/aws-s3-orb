@@ -28,11 +28,18 @@ parameters:
     type: env_var_name
     description: aws region override
     default: AWS_REGION
+  aws-skip-setup:
+    type: boolean
+    description: Skip aws cli setup. Useful when you're using profiles
+    default: false    
 steps:
-  - aws-cli/setup:
-      aws-access-key-id: << parameters.aws-access-key-id >>
-      aws-secret-access-key: << parameters.aws-secret-access-key >>
-      aws-region: << parameters.aws-region >>
+  - unless:
+          condition: << parameters.aws-skip-setup >>
+          steps:
+            - aws-cli/setup:
+                aws-access-key-id: << parameters.aws-access-key-id >>
+                aws-secret-access-key: << parameters.aws-secret-access-key >>
+                aws-region: << parameters.aws-region >>
   - deploy:
       name: S3 Sync
       command: |
