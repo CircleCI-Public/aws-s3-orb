@@ -30,7 +30,10 @@ parameters:
     default: AWS_REGION
   install-aws-cli:
     type: boolean
-    description: Install aws cli setup. By default true Useful when you're using profiles
+    description: >
+      Install aws cli. 
+      By default true. 
+      Useful when you're using aws-cli profiles
     default: true
 steps:
   - when:
