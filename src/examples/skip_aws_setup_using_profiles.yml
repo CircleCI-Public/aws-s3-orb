@@ -19,7 +19,7 @@ usage:
             source-profile: default        
           - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
           - aws-s3/sync:
-              aws-skip-setup: true
+              install-aws-cli: false
               from: bucket
               to: "s3://my-s3-bucket-name/prefix"
               arguments: |
@@ -27,7 +27,7 @@ usage:
                 --cache-control "max-age=86400"
                 --profile new-profile
           - aws-s3/copy:
-              aws-skip-setup: true
+              install-aws-cli: false
               from: bucket/build_asset.txt
               to: "s3://my-s3-bucket-name"
               arguments: |
