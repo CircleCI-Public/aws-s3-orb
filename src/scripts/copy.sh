@@ -1,0 +1,6 @@
+#!/bin/sh
+PARAM_AWS_S3_FROM=$(eval echo "${PARAM_AWS_S3_FROM}")
+PARAM_AWS_S3_TO=$(eval echo "${PARAM_AWS_S3_TO}")
+PARAM_AWS_S3_ARGUMENTS=$(eval echo "${PARAM_AWS_S3_ARGUMENTS}")
+
+aws s3 cp "${PARAM_AWS_S3_FROM}}" "${PARAM_AWS_S3_TO}}""${PARAM_AWS_S3_ARGUMENTS}"
