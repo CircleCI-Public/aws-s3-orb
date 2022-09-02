@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  aws-s3-orb: circleci/aws-s3-orb@dev:<<pipeline.git.revision>>
+  aws-s3: circleci/aws-s3@dev:<<pipeline.git.revision>>
   orb-tools: circleci/orb-tools@11.3
 filters: &filters
   tags:
@@ -43,7 +43,7 @@ workflows:
       - orb-tools/pack:
           filters: *filters
       - orb-tools/publish:
-          orb-name: circleci/aws-s3-orb
+          orb-name: circleci/aws-s3
           vcs-type: << pipeline.project.type >>
           pub-type: production
           requires:
