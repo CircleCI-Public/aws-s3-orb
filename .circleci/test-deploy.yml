@@ -1,0 +1,58 @@
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@dev:<<pipeline.git.revision>>
+  orb-tools: circleci/orb-tools@11.3
+filters: &filters
+  tags:
+    only: /.*/
+jobs:
+  integration-test-1:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+      - aws-s3/sync:
+          from: bucket
+          to: "s3://orb-testing-1/s3-orb"
+      - aws-s3/copy:
+          from: bucket/build_asset.txt
+          to: "s3://orb-testing-1"
+  integration-test-2:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+      - aws-s3/sync:
+          from: bucket
+          to: "s3://orb-testing-1/s3-orb"
+      - aws-s3/copy:
+          from: bucket/build_asset.txt
+          to: "s3://orb-testing-1"
+workflows:
+  test-deploy:
+    jobs:
+      # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      - integration-test-1:
+          context: [CPE_ORBS_AWS]
+          filters: *filters
+      - integration-test-2:
+          context: [CPE_ORBS_AWS]
+          filters: *filters
+      - orb-tools/pack:
+          filters: *filters
+      - orb-tools/publish:
+          orb-name: circleci/aws-s3
+          vcs-type: << pipeline.project.type >>
+          pub-type: production
+          requires:
+            - orb-tools/pack
+            - integration-test-1
+            - integration-test-2
+          context: orb-publisher
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/

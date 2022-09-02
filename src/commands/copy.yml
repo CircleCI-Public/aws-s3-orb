@@ -30,4 +30,8 @@ steps:
       aws-region: << parameters.aws-region >>
   - run:
       name: S3 Copy << parameters.from >> -> << parameters.to >>
-      command: "aws s3 cp << parameters.from >> << parameters.to >><<# parameters.arguments >> << parameters.arguments >><</ parameters.arguments >>"
+      environment:
+        PARAM_AWS_S3_FROM: <<parameters.from>>
+        PARAM_AWS_S3_TO: <<parameters.to>>
+        PARAM_AWS_S3_ARGUMENTS: <<parameters.arguments>>
+      command: <<include(scripts/copy.sh)>>

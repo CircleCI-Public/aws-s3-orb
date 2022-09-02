@@ -1,102 +1,35 @@
 version: 2.1
+setup: true
 orbs:
-  aws-s3: circleci/aws-s3@dev:alpha
-  orb-tools: circleci/orb-tools@10.0
-parameters:
-  run-integration-tests:
-    type: boolean
-    default: false
-  dev-orb-version:
-    type: string
-    default: "dev:alpha"
+  orb-tools: circleci/orb-tools@11.3
+  shellcheck: circleci/shellcheck@3.1
 
-jobs:
-  integration-test-1:
-    docker:
-      - image: cimg/python:3.6
-    steps:
-      - checkout
-      - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
-      - aws-s3/sync:
-          from: bucket
-          to: "s3://orb-testing-1/s3-orb"
-      - aws-s3/copy:
-          from: bucket/build_asset.txt
-          to: "s3://orb-testing-1"
-  integration-test-2:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
-      - aws-s3/sync:
-          from: bucket
-          to: "s3://orb-testing-1/s3-orb"
-      - aws-s3/copy:
-          from: bucket/build_asset.txt
-          to: "s3://orb-testing-1"
+filters: &filters
+  tags:
+    only: /.*/
 
 workflows:
-  # This `lint-pack_validate_publish-dev` workflow will run on any commit.
-  lint_pack-validate_publish-dev:
-    unless: << pipeline.parameters.run-integration-tests >>
+  lint-pack:
     jobs:
-      - orb-tools/lint
-      # pack your orb YAML files to a single orb.yml
-      # validate the orb.yml file to ensure it is well-formed
+      - orb-tools/lint:
+          filters: *filters
       - orb-tools/pack:
-          requires:
-            - orb-tools/lint
-
-      # release dev version of orb, for testing & possible publishing.
-      # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
-      # requires a CircleCI API token to be stored as CIRCLE_TOKEN (default)
-      # https://circleci.com/docs/2.0/managing-api-tokens
-      # store CIRCLE_TOKEN as a project env var or Contexts resource
-      # if using Contexts, add your context below
-      - orb-tools/publish-dev:
+          filters: *filters
+      - orb-tools/review:
+          filters: *filters
+      - shellcheck/check:
+          filters: *filters
+      - orb-tools/publish:
           orb-name: circleci/aws-s3
-          context: orb-publisher
+          vcs-type: << pipeline.project.type >>
           requires:
-            - orb-tools/pack
-
-      # trigger an integration workflow to test the
-      # dev:${CIRCLE_SHA1:0:7} version of your orb
-      - orb-tools/trigger-integration-tests-workflow:
-          name: trigger-integration-dev
+            [orb-tools/lint, orb-tools/review, orb-tools/pack, shellcheck/check]
+          # Use a context to hold your publishing token.
           context: orb-publisher
-          requires:
-            - orb-tools/publish-dev
-
-  # This `integration-tests_prod-release` workflow will only run
-  # when the run-integration-tests pipeline parameter is set to true.
-  # It is meant to be triggered by the "trigger-integration-tests-workflow"
-  # job, and run tests on <your orb>@dev:${CIRCLE_SHA1:0:7}.
-  integration-tests_prod-release:
-    when: << pipeline.parameters.run-integration-tests >>
-    jobs:
-      - integration-test-1:
-          context: CPE_ORBS_AWS
-      - integration-test-2:
-          context: CPE_ORBS_AWS
-
-      # publish a semver version of the orb. relies on
-      # the commit subject containing the text "[semver:patch|minor|major|skip]"
-      # as that will determine whether a patch, minor or major
-      # version will be published or if publishing should
-      # be skipped.
-      # e.g. [semver:patch] will cause a patch version to be published.
-      - orb-tools/dev-promote-prod-from-commit-subject:
-          orb-name: circleci/aws-s3
-          context: orb-publisher
-          add-pr-comment: true
-          bot-token-variable: GHI_TOKEN
-          bot-user: orb-publisher
-          fail-if-semver-not-indicated: true
-          publish-version-tag: true
-          requires:
-            - integration-test-1
-            - integration-test-2
-          filters:
-            branches:
-              only: master
+          filters: *filters
+      # Triggers the next workflow in the Orb Development Kit.
+      - orb-tools/continue:
+          pipeline-number: << pipeline.number >>
+          vcs-type: << pipeline.project.type >>
+          requires: [orb-tools/publish]
+          filters: *filters
