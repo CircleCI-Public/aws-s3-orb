@@ -39,10 +39,10 @@ workflows:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       - integration-test-1:
-          context: [CPE_ORBS_AWS]
+          context: [CPE-OIDC]
           filters: *filters
       - integration-test-2:
-          context: [CPE_ORBS_AWS]
+          context: [CPE-OIDC]
           filters: *filters
       - orb-tools/pack:
           filters: *filters
