@@ -19,7 +19,7 @@ jobs:
       - aws-s3/copy:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
-          role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST          
+          role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST      
   integration-test-2:
     docker:
       - image: cimg/base:stable
@@ -34,6 +34,7 @@ jobs:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
           role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+
 workflows:
   test-deploy:
     jobs:
