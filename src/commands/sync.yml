@@ -49,7 +49,8 @@ parameters:
     description: |
       Add the when attribute to a job step to override its default behaviour
       and selectively run or skip steps depending on the status of the job.
-    type: string
+    type: enum
+    enum: ["on_success", "on_fail", "always"]
     default: "on_success"
 steps:
   - when:

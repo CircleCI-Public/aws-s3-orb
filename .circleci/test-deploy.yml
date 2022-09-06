@@ -30,7 +30,6 @@ jobs:
           from: bucket
           to: "s3://orb-testing-1/s3-orb"
           role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-          when: "on_fail"
       - aws-s3/copy:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
