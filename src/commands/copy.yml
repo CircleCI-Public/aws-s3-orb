@@ -41,6 +41,12 @@ parameters:
     description: The duration of the session in seconds
     type: string
     default: "3600"
+  when:
+    description: |
+      Add the when attribute to a job step to override its default behaviour
+      and selectively run or skip steps depending on the status of the job.
+    type: string
+    default: "on_success"
 steps:
   - when:
       condition: <<parameters.role-arn>>
@@ -61,6 +67,7 @@ steps:
             profile-name: << parameters.profile-name >>
   - run:
       name: S3 Copy << parameters.from >> -> << parameters.to >>
+      when: <<parameters.when>>
       environment:
         PARAM_AWS_S3_FROM: <<parameters.from>>
         PARAM_AWS_S3_TO: <<parameters.to>>
