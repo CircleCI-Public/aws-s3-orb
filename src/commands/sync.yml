@@ -48,7 +48,7 @@ parameters:
   install-aws-cli:
     description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
     type: boolean
-    default: true    
+    default: true
   when:
     description: |
       Add the when attribute to a job step to override its default behaviour
