@@ -37,6 +37,7 @@ jobs:
       - aws-s3/copy:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
+          profile-name: "OIDC-User"
           install-aws-cli: false
 workflows:
   test-deploy:
