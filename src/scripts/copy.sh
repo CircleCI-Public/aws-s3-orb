@@ -7,4 +7,8 @@ if [ -n "${PARAM_AWS_S3_ARGUMENTS}" ]; then
     set -- "$@" "${PARAM_AWS_S3_ARGUMENTS}"
 fi
 
+if [ -n "${PARAM_AWS_S3_PROFILE_NAME}" ]; then
+    set -- "$@" --profile "${PARAM_AWS_S3_PROFILE_NAME}"
+fi    
+
 aws s3 cp "${PARAM_AWS_S3_FROM}" "${PARAM_AWS_S3_TO}" "$@"
