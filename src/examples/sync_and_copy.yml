@@ -1,8 +1,8 @@
 description: >
-  The S3 orb allows you to "sync" directories or "copy" files to an S3 bucket. 
-  The example below shows a typical CircleCI job where a file "bucket/build_asset.txt" is created, 
-  followed by how we can both sync, and/or copy the file. It also demonstrates the use of OIDC authentication by providing
-  a valid AWS role-arn. 
+  The S3 orb allows you to "sync" directories or "copy" files to an S3 bucket.
+  The example below shows a typical CircleCI job where a file "bucket/build_asset.txt" is created,
+  followed by how we can both sync, and/or copy the file. It also demonstrates the use of OIDC authentication
+  by providing a valid AWS role-arn.
 usage:
   version: 2.1
   orbs:
