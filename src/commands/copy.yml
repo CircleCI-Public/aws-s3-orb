@@ -1,5 +1,9 @@
 description: >
   Copies a local file or S3 object to another location locally or in S3. https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html
+commands:
+  oidc-auth:
+    steps:
+     - run: echo "hello world"
 parameters:
   from:
     type: string
@@ -73,6 +77,7 @@ steps:
                   aws-secret-access-key: << parameters.aws-secret-access-key >>
                   aws-region: << parameters.aws-region >>
                   profile-name: << parameters.profile-name >>
+  - oidc-auth
   - run:
       name: S3 Copy << parameters.from >> -> << parameters.to >>
       when: <<parameters.when>>
