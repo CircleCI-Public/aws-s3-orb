@@ -42,7 +42,6 @@ jobs:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
           profile-name: "OIDC-User"
-          install-aws-cli: false
 workflows:
   test-deploy:
     jobs:
@@ -54,6 +53,15 @@ workflows:
           matrix:
             parameters:
               executor: [ "alpine", "docker-base", "windows", "macos" ]
+      - aws-s3/copy:
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+                role-session-name: "Test-session"
+                profile-name: "OIDC-User"
+          from: bucket/build_asset.txt
+          to: "s3://orb-testing-1"
+          profile-name: "OIDC-User"
       - orb-tools/pack:
           filters: *filters
       - orb-tools/publish:
