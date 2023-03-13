@@ -30,6 +30,7 @@ parameters:
 docker:
   - image: cimg/base:current
 steps:
+  - checkout
   - steps: <<parameters.auth>>
   - copy:
       when: <<parameters.when>>
