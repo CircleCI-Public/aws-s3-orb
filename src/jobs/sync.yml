@@ -1,0 +1,39 @@
+description: >
+  A job that syncs directories and S3 prefixes. https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html
+parameters:
+  from:
+    type: string
+    description: A local file or source s3 object
+  to:
+    type: string
+    description: A local target or s3 destination
+  arguments:
+    description: If you wish to pass any additional arguments to the aws copy command (i.e. -sse)
+    default: ''
+    type: string
+  profile-name:
+    description: AWS profile name to be configured.
+    type: string
+    default: ''
+  auth:
+    description: |
+      The authentication method used to access your AWS account. Import the aws-cli orb in your config and
+      provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
+    type: steps
+  when:
+    description: |
+      Add the when attribute to a job step to override its default behavior
+      and selectively run or skip steps depending on the status of the job.
+    type: enum
+    enum: ["on_success", "on_fail", "always"]
+    default: "on_success"
+docker:
+  - image: cimg/base:current
+steps:
+  - steps: <<parameters.auth>>
+  - sync:
+      when: <<parameters.when>>
+      from: <<parameters.from>>
+      to: <<parameters.to>>
+      arguments: <<parameters.arguments>>
+      profile-name: <<parameters.profile-name>>
