@@ -65,11 +65,6 @@ workflows:
           to: "s3://orb-testing-1/s3-orb"
           profile-name: "OIDC-User"
           context: [CPE-OIDC]
-          # requires: 
-          #   - integration-test-alpine
-          #   - integration-test-docker-base
-          #   # - integration-test-windows
-          #   - integration-test-macos
       - aws-s3/copy:
           pre-steps:
             - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
@@ -96,6 +91,8 @@ workflows:
             - integration-test-docker-base
             - integration-test-windows
             - integration-test-macos
+            - aws-s3/copy
+            - aws-s3/sync
           context: orb-publisher
           filters:
             branches:

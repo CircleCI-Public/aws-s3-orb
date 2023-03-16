@@ -1,0 +1,30 @@
+description: >
+  The S3 orb allows you to "sync" directories or "copy" files to an S3 bucket. The example below demonstrates how to use
+  the "sync" and "copy" jobs. It also demonstrates the use of OIDC authentication in a job with the required "auth" parameter.
+  The aws-cli orb must be imported and the aws-cli/setup command must be used with a valid AWS role-arn.
+usage:
+  version: 2.1
+  orbs:
+    aws-s3: circleci/aws-s3@3.1
+    # Importing aws-cli orb is required
+    aws-cli: circleci/aws-cli@3.1
+  workflows:
+    s3-example:
+      jobs:
+        - aws-s3/copy:
+            auth:
+              # Add authentication step with OIDC using aws-cli/setup command
+              - aws-cli/setup:
+                  role-arn: arn:aws:iam::123456789012/role/VALID-S3-ROLE
+                  profile-name: "OIDC-User"
+            from: PATH/TO/FILE
+            to: "s3://my-s3-bucket-name"
+            # Profile name must be the same as authentication step if specified
+            profile-name: "OIDC-User"
+        - aws-s3/sync:
+            auth:
+              # Add authentication step with OIDC using aws-cli/setup command
+              - aws-cli/setup:
+                  role-arn: arn:aws:iam::123456789012/role/VALID-S3-ROLE
+            from: bucket
+            to: "s3://my-s3-bucket-name/prefix"
