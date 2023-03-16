@@ -38,7 +38,7 @@ jobs:
           from: bucket
           to: "s3://orb-testing-1/s3-orb"
           profile-name: "OIDC-User"
-          arguments: --acl public-read --cache-control "max-age=86400"          
+          arguments: --acl public-read --cache-control max-age=86400
       - aws-s3/copy:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
