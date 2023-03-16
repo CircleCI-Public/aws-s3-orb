@@ -1,7 +1,8 @@
 version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.3
+  orb-tools: circleci/orb-tools@11.6
+  aws-cli: circleci/aws-cli@3.1
 filters: &filters
   tags:
     only: /.*/
@@ -29,16 +30,18 @@ jobs:
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+      - aws-cli/setup:    
+          role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+          profile-name: "OIDC-User"
+          role-session-name: "OIDC-test-session"
       - aws-s3/sync:
           from: bucket
           to: "s3://orb-testing-1/s3-orb"
-          role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
           profile-name: "OIDC-User"
       - aws-s3/copy:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
           profile-name: "OIDC-User"
-          install-aws-cli: false
 workflows:
   test-deploy:
     jobs:
@@ -50,6 +53,32 @@ workflows:
           matrix:
             parameters:
               executor: [ "alpine", "docker-base", "windows", "macos" ]
+      - aws-s3/sync:
+          pre-steps:
+            - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+                role-session-name: "Test-session"
+                profile-name: "OIDC-User"
+          from: ~/bucket
+          to: "s3://orb-testing-1/s3-orb"
+          profile-name: "OIDC-User"
+          context: [CPE-OIDC]
+      - aws-s3/copy:
+          pre-steps:
+            - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+                role-session-name: "Test-session"
+                profile-name: "OIDC-User"
+          from: ~/bucket/build_asset.txt
+          to: "s3://orb-testing-1"
+          profile-name: "OIDC-User"
+          context: [CPE-OIDC]
+          requires:
+            - aws-s3/sync
       - orb-tools/pack:
           filters: *filters
       - orb-tools/publish:
@@ -62,6 +91,8 @@ workflows:
             - integration-test-docker-base
             - integration-test-windows
             - integration-test-macos
+            - aws-s3/copy
+            - aws-s3/sync
           context: orb-publisher
           filters:
             branches:
