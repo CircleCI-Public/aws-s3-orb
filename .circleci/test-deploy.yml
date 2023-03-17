@@ -43,6 +43,7 @@ jobs:
           from: bucket/build_asset.txt
           to: "s3://orb-testing-1"
           profile-name: "OIDC-User"
+          arguments: --cache-control "public, max-age=15" --acl bucket-owner-full-control
 workflows:
   test-deploy:
     jobs:
