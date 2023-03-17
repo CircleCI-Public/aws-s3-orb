@@ -12,8 +12,8 @@ parameters:
     default: ""
     description: >
       Optional additional arguments to pass to the `aws sync` command
-      (e.g., `--acl public-read`). Note: if passing a multi-line value
-      to this parameter, include `\` characters after each line, so the
+      (e.g., `--acl public-read`). Note: Please pass all values to this
+      to this parameter in a single line without quotations so the
       Bash shell can correctly interpret the entire command.
   profile-name:
     description: AWS profile name to be configured.

@@ -8,7 +8,10 @@ parameters:
     type: string
     description: A local target or s3 destination
   arguments:
-    description: If you wish to pass any additional arguments to the aws copy command (i.e. -sse)
+    description: > 
+      If you wish to pass any additional arguments to the aws copy command (i.e. -sse)
+      Note: Please pass all values to this to this parameter in a single line without quotations so the
+      Bash shell can correctly interpret the entire command.
     default: ''
     type: string
   profile-name:
