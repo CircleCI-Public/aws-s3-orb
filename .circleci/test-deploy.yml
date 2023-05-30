@@ -35,11 +35,11 @@ jobs:
           profile-name: "OIDC-User"
           role-session-name: "OIDC-test-session"
       - aws-s3/sync:
-          from: bucket
+          from: "bucket"
           to: "s3://orb-testing-1/s3-orb"
           profile-name: "OIDC-User"
       - aws-s3/copy:
-          from: bucket/build_asset.txt
+          from: "bucket/build_asset.txt"
           to: "s3://orb-testing-1"
           profile-name: "OIDC-User"
 workflows:
@@ -61,7 +61,7 @@ workflows:
                 role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
                 role-session-name: "Test-session"
                 profile-name: "OIDC-User"
-          from: ~/bucket
+          from: "$HOME/bucket"
           to: "s3://orb-testing-1/s3-orb"
           profile-name: "OIDC-User"
           context: [CPE-OIDC]
@@ -73,7 +73,7 @@ workflows:
                 role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
                 role-session-name: "Test-session"
                 profile-name: "OIDC-User"
-          from: ~/bucket/build_asset.txt
+          from: "$HOME/bucket/build_asset.txt"
           to: "s3://orb-testing-1"
           profile-name: "OIDC-User"
           context: [CPE-OIDC]
