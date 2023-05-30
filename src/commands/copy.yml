@@ -14,7 +14,7 @@ parameters:
   profile-name:
     description: AWS profile name to be configured.
     type: string
-    default: ''
+    default: "default"
   role-arn:
     description: |
       The Amazon Resource Name (ARN) of the role that the caller is assuming.
@@ -36,5 +36,5 @@ steps:
         PARAM_AWS_S3_FROM: <<parameters.from>>
         PARAM_AWS_S3_TO: <<parameters.to>>
         PARAM_AWS_S3_ARGUMENTS: <<parameters.arguments>>
-        PARAM_AWS_S3_PROFILE_NAME: <<parameters.profile-name>>
+        ORB_VAL_S3_PROFILE_NAME: <<parameters.profile-name>>
       command: <<include(scripts/copy.sh)>>
