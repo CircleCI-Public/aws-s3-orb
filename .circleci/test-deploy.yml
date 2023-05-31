@@ -89,7 +89,7 @@ workflows:
       - orb-tools/pack:
           filters: *release-filters
       - orb-tools/publish:
-          orb-name: circleci/aws-s3
+          orb_name: circleci/aws-s3
           vcs_type: << pipeline.project.type >>
           pub_type: production
           enable_pr_comment: true
