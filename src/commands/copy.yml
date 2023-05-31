@@ -36,5 +36,5 @@ steps:
         ORB_EVAL_FROM: <<parameters.from>>
         ORB_EVAL_TO: <<parameters.to>>
         ORB_EVAL_ARGUMENTS: <<parameters.arguments>>
-        ORB_VAL_PROFILE_NAME: <<parameters.profile-name>>
+        ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
       command: <<include(scripts/copy.sh)>>
