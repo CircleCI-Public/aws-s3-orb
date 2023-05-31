@@ -15,13 +15,13 @@ parameters:
       (e.g., `--acl public-read`). Note: if passing a multi-line value
       to this parameter, include `\` characters after each line, so the
       Bash shell can correctly interpret the entire command.
-  profile-name:
+  profile_name:
     description: AWS profile name to be configured.
     type: string
     default: "default"
   when:
     description: |
-      Add the when attribute to a job step to override its default behaviour
+      Add the when attribute to a job step to override its default behavior
       and selectively run or skip steps depending on the status of the job.
     type: enum
     enum: ["on_success", "on_fail", "always"]
@@ -34,5 +34,5 @@ steps:
         ORB_EVAL_FROM: <<parameters.from>>
         ORB_EVAL_TO: <<parameters.to>>
         ORB_EVAL_ARGUMENTS: <<parameters.arguments>>
-        ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
+        ORB_EVAL_PROFILE_NAME: <<parameters.profile_name>>
       command: <<include(scripts/sync.sh)>>

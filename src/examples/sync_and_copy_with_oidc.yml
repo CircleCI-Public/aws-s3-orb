@@ -2,7 +2,7 @@ description: >
   The S3 orb allows you to "sync" directories or "copy" files to an S3 bucket.
   The example below shows a typical CircleCI job where a file "bucket/build_asset.txt" is created,
   followed by how we can both sync, and/or copy the file. It also demonstrates the use of OIDC authentication by importing
-  the aws-cli orb and providing the aws-cli/setup command with a valid AWS role-arn and profile name.
+  the aws-cli orb and providing the aws-cli/setup command with a valid AWS role_arn and profile name.
   If a profile name is specified with authentication, it must be specified in the copy and sync commands.
 usage:
   version: 2.1
@@ -19,11 +19,11 @@ usage:
         - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
         # Add authentication step with OIDC using aws-cli/setup command
         - aws-cli/setup:
-            role-arn: arn:aws:iam::123456789012/role/VALID-S3-ROLE
-            profile-name: "OIDC-User"
+            role_arn: arn:aws:iam::123456789012/role/VALID-S3-ROLE
+            profile_name: "OIDC-User"
         - aws-s3/sync:
             # Profile name must be the same as authentication step
-            profile-name: "OIDC-User"
+            profile_name: "OIDC-User"
             from: bucket
             to: "s3://my-s3-bucket-name/prefix"
             arguments: |
@@ -31,7 +31,7 @@ usage:
               --cache-control "max-age=86400"
         - aws-s3/copy:
             # Profile name must be the same as authentication step
-            profile-name: "OIDC-User"
+            profile_name: "OIDC-User"
             from: bucket/build_asset.txt
             to: "s3://my-s3-bucket-name"
             arguments: --dryrun

@@ -1,14 +1,19 @@
 version: 2.1
 orbs:
-  aws-s3: circleci/aws-s3@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.6
-  aws-cli: circleci/aws-cli@3.1
+  orb-tools: circleci/orb-tools@12.0
+  aws-cli: circleci/aws-cli@4.0
+  aws-s3: {}
 filters: &filters
   tags:
     only: /.*/
+release-filters: &release-filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 executors:
   alpine:
-    docker: 
+    docker:
       - image: alpine:latest
   docker-base:
     docker:
@@ -30,18 +35,18 @@ jobs:
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
-      - aws-cli/setup:    
-          role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-          profile-name: "OIDC-User"
-          role-session-name: "OIDC-test-session"
+      - aws-cli/setup:
+          role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+          profile_name: "OIDC-User"
+          role_session_name: "OIDC-test-session"
       - aws-s3/sync:
           from: "bucket"
           to: "s3://orb-testing-1/s3-orb"
-          profile-name: "OIDC-User"
+          profile_name: "OIDC-User"
       - aws-s3/copy:
           from: "bucket/build_asset.txt"
           to: "s3://orb-testing-1"
-          profile-name: "OIDC-User"
+          profile_name: "OIDC-User"
 workflows:
   test-deploy:
     jobs:
@@ -52,50 +57,42 @@ workflows:
           filters: *filters
           matrix:
             parameters:
-              executor: [ "alpine", "docker-base", "windows", "macos" ]
+              executor: ["alpine", "docker-base", "windows", "macos"]
       - aws-s3/sync:
           pre-steps:
             - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
           auth:
             - aws-cli/setup:
-                role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-                role-session-name: "Test-session"
-                profile-name: "OIDC-User"
+                role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+                role_session_name: "Test-session"
+                profile_name: "OIDC-User"
           from: "$HOME/bucket"
           to: "s3://orb-testing-1/s3-orb"
-          profile-name: "OIDC-User"
+          profile_name: "OIDC-User"
           context: [CPE-OIDC]
+          filters: *filters
       - aws-s3/copy:
           pre-steps:
             - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
           auth:
             - aws-cli/setup:
-                role-arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-                role-session-name: "Test-session"
-                profile-name: "OIDC-User"
+                role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
+                role_session_name: "Test-session"
+                profile_name: "OIDC-User"
           from: "$HOME/bucket/build_asset.txt"
           to: "s3://orb-testing-1"
-          profile-name: "OIDC-User"
+          profile_name: "OIDC-User"
           context: [CPE-OIDC]
+          filters: *filters
           requires:
             - aws-s3/sync
       - orb-tools/pack:
-          filters: *filters
+          filters: *release-filters
       - orb-tools/publish:
-          orb-name: circleci/aws-s3
-          vcs-type: << pipeline.project.type >>
-          pub-type: production
-          requires:
-            - orb-tools/pack
-            - integration-test-alpine
-            - integration-test-docker-base
-            - integration-test-windows
-            - integration-test-macos
-            - aws-s3/copy
-            - aws-s3/sync
+          orb_name: circleci/aws-s3
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          enable_pr_comment: true
+          requires: [orb-tools/pack, integration-test-alpine, integration-test-docker-base, integration-test-windows, integration-test-macos, aws-s3/copy, aws-s3/sync]
           context: orb-publisher
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+          filters: *release-filters

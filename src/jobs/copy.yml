@@ -11,7 +11,7 @@ parameters:
     description: If you wish to pass any additional arguments to the aws copy command (i.e. -sse)
     default: ''
     type: string
-  profile-name:
+  profile_name:
     description: AWS profile name to be configured.
     type: string
     default: "default"
@@ -28,7 +28,7 @@ parameters:
     enum: ["on_success", "on_fail", "always"]
     default: "on_success"
 docker:
-  - image: cimg/base:current
+  - image: cimg/aws:2023.05
 steps:
   - checkout
   - steps: <<parameters.auth>>
@@ -37,4 +37,4 @@ steps:
       from: <<parameters.from>>
       to: <<parameters.to>>
       arguments: <<parameters.arguments>>
-      profile-name: <<parameters.profile-name>>
+      profile_name: <<parameters.profile_name>>
