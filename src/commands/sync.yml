@@ -18,7 +18,7 @@ parameters:
   profile-name:
     description: AWS profile name to be configured.
     type: string
-    default: ''
+    default: "default"
   when:
     description: |
       Add the when attribute to a job step to override its default behaviour
@@ -31,8 +31,8 @@ steps:
       name: S3 Sync
       when: <<parameters.when>>
       environment:
-        PARAM_AWS_S3_FROM: <<parameters.from>>
-        PARAM_AWS_S3_TO: <<parameters.to>>
-        PARAM_AWS_S3_ARGUMENTS: <<parameters.arguments>>
-        PARAM_AWS_S3_PROFILE_NAME: <<parameters.profile-name>>
+        ORB_EVAL_FROM: <<parameters.from>>
+        ORB_EVAL_TO: <<parameters.to>>
+        ORB_EVAL_ARGUMENTS: <<parameters.arguments>>
+        ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
       command: <<include(scripts/sync.sh)>>
