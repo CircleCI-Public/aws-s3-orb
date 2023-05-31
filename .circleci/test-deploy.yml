@@ -38,7 +38,7 @@ jobs:
       - aws-cli/setup:
           role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
           profile_name: "OIDC-User"
-          role-session-name: "OIDC-test-session"
+          role_session_name: "OIDC-test-session"
       - aws-s3/sync:
           from: "bucket"
           to: "s3://orb-testing-1/s3-orb"
@@ -64,7 +64,7 @@ workflows:
           auth:
             - aws-cli/setup:
                 role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-                role-session-name: "Test-session"
+                role_session_name: "Test-session"
                 profile_name: "OIDC-User"
           from: "$HOME/bucket"
           to: "s3://orb-testing-1/s3-orb"
@@ -77,7 +77,7 @@ workflows:
           auth:
             - aws-cli/setup:
                 role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-                role-session-name: "Test-session"
+                role_session_name: "Test-session"
                 profile_name: "OIDC-User"
           from: "$HOME/bucket/build_asset.txt"
           to: "s3://orb-testing-1"
