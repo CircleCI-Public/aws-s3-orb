@@ -11,11 +11,11 @@ parameters:
     description: If you wish to pass any additional arguments to the aws copy command (i.e. -sse)
     default: ''
     type: string
-  profile-name:
+  profile_name:
     description: AWS profile name to be configured.
     type: string
     default: "default"
-  role-arn:
+  role_arn:
     description: |
       The Amazon Resource Name (ARN) of the role that the caller is assuming.
       Role ARN must be configured for web identity.
@@ -23,7 +23,7 @@ parameters:
     default: ""
   when:
     description: |
-      Add the when attribute to a job step to override its default behaviour
+      Add the when attribute to a job step to override its default behavior
       and selectively run or skip steps depending on the status of the job.
     type: enum
     enum: ["on_success", "on_fail", "always"]
@@ -36,5 +36,5 @@ steps:
         ORB_EVAL_FROM: <<parameters.from>>
         ORB_EVAL_TO: <<parameters.to>>
         ORB_EVAL_ARGUMENTS: <<parameters.arguments>>
-        ORB_EVAL_PROFILE_NAME: <<parameters.profile-name>>
+        ORB_EVAL_PROFILE_NAME: <<parameters.profile_name>>
       command: <<include(scripts/copy.sh)>>
