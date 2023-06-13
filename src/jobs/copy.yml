@@ -27,8 +27,11 @@ parameters:
     type: enum
     enum: ["on_success", "on_fail", "always"]
     default: "on_success"
-docker:
-  - image: cimg/aws:2023.05
+  executor:
+    description: The executor to use for this job. By default, this will use the "default" executor provided by this orb.
+    type: executor
+    default: default
+executor: << parameters.executor >>
 steps:
   - checkout
   - steps: <<parameters.auth>>
