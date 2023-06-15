@@ -13,5 +13,5 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
 fi
 
 set -x
-aws s3 sync "${ORB_EVAL_FROM}" "${ORB_EVAL_TO}" --profile "${ORB_EVAL_PROFILE_NAME}" "$@"
+aws s3 cp "${ORB_EVAL_FROM}" "${ORB_EVAL_TO}" --profile "${ORB_STR_PROFILE_NAME}" "$@"
 set +x
