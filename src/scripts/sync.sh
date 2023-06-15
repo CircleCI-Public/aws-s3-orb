@@ -9,7 +9,7 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     set -- "${ORB_EVAL_ARGUMENTS}"
     while [ $# -gt 0 ]; do
         arg="$1"
-        ser -- "$@" "${arg}"
+        set -- "$@" "${arg}"
         shift
     done
 fi
