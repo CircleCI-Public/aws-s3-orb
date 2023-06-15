@@ -9,6 +9,7 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     IFS=' '
     set --
     for arg in ${ORB_EVAL_ARGUMENTS}; do
+        arg=$(echo "$arg" | tr -d "'")
         set -- "$@" "${arg}"
     done
 fi
