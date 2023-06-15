@@ -69,6 +69,9 @@ workflows:
           from: "$HOME/bucket"
           to: "s3://orb-testing-1/s3-orb"
           profile_name: "OIDC-User"
+          arguments: |
+            --acl public-read \
+            --cache-control max-age=86400
           context: [CPE-OIDC]
           filters: *filters
       - aws-s3/copy:
@@ -81,6 +84,9 @@ workflows:
                 profile_name: "OIDC-User"
           from: "$HOME/bucket/build_asset.txt"
           to: "s3://orb-testing-1"
+          arguments: | 
+            --cache-control "public, max-age=15" \
+            --acl bucket-owner-full-control
           profile_name: "OIDC-User"
           context: [CPE-OIDC]
           filters: *filters
