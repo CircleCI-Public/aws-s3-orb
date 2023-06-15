@@ -5,11 +5,10 @@ ORB_EVAL_ARGUMENTS=$(echo "${ORB_EVAL_ARGUMENTS}" | circleci env subst)
 ORB_EVAL_PROFILE_NAME=$(circleci env subst "${ORB_EVAL_PROFILE_NAME}")
 
 if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
+    IFS=' '
     set -- "${ORB_EVAL_ARGUMENTS}"
-    while [ $# -gt 0 ]; do
-        arg="$1"
+    for arg do
         set -- "$@" "${arg}"
-        shift
     done
 fi
 
