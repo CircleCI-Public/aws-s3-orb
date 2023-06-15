@@ -33,6 +33,6 @@ steps:
       environment:
         ORB_EVAL_FROM: <<parameters.from>>
         ORB_EVAL_TO: <<parameters.to>>
-        ORB_EVAL_ARGUMENTS: <<parameters.arguments>>
-        ORB_EVAL_PROFILE_NAME: <<parameters.profile_name>>
+        ORB_STR_ARGUMENTS: <<parameters.arguments>>
+        ORB_STR_PROFILE_NAME: <<parameters.profile_name>>
       command: <<include(scripts/sync.sh)>>
