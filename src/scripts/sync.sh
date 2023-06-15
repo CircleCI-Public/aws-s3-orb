@@ -7,7 +7,7 @@ ORB_EVAL_ARGUMENTS=${ORB_EVAL_ARGUMENTS//\'/}
 ORB_EVAL_PROFILE_NAME=$(circleci env subst "${ORB_EVAL_PROFILE_NAME}")
 
 IFS=' '
-read -a args <<< "${ORB_EVAL_ARGUMENTS}"
+read -ra args <<< "${ORB_EVAL_ARGUMENTS}"
 echo "${args[@]}"
 for arg in "${args[@]}"
 do
