@@ -5,7 +5,8 @@ ORB_EVAL_TO=$(circleci env subst "${ORB_EVAL_TO}")
 ORB_EVAL_ARGUMENTS=$(echo "${ORB_EVAL_ARGUMENTS}" | circleci env subst)
 ORB_EVAL_ARGUMENTS=$(echo "${ORB_EVAL_ARGUMENTS}" | tr -d "'")
 ORB_EVAL_PROFILE_NAME=$(circleci env subst "${ORB_EVAL_PROFILE_NAME}")
-ORB_EVAL_ARGUMENTS="$(grep "${ORB_EVAL_ARGUMENTS}")"
+#shellcheck disable=SC2116
+ORB_EVAL_ARGUMENTS="$(echo "${ORB_EVAL_ARGUMENTS}")"
 echo "${ORB_EVAL_ARGUMENTS}"
 if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     set -- "$@" "${ORB_EVAL_ARGUMENTS}"
