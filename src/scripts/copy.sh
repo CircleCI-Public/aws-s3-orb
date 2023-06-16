@@ -44,7 +44,7 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     #     set -- "$@" "${arg}"
     # done
 
-    eval "ORB_EVAL_ARGUMENTS=$ORB_EVAL_ARGUMENTS"
+    ORB_EVAL_ARGUMENTS="$(echo "$ORB_EVAL_ARGUMENTS" | tr -d "'")"
     set -- "$@" "${ORB_EVAL_ARGUMENTS}"
 fi
 
