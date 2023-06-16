@@ -4,14 +4,13 @@ ORB_EVAL_FROM=$(circleci env subst "${ORB_EVAL_FROM}")
 ORB_EVAL_TO=$(circleci env subst "${ORB_EVAL_TO}")
 ORB_EVAL_ARGUMENTS=$(echo "${ORB_EVAL_ARGUMENTS}" | circleci env subst)
 ORB_EVAL_PROFILE_NAME=$(circleci env subst "${ORB_EVAL_PROFILE_NAME}")
-
+# shellcheck disable=SC2086
 if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
-    # IFS=' '
-    # set --
-    # for arg in ${ORB_EVAL_ARGUMENTS}; do
-    #     arg=$(echo "$arg" | tr -d "'")
-    #     set -- "$@" "${arg}"
-    # done
+    IFS=' '
+    set --
+    for arg in ${ORB_EVAL_ARGUMENTS}; do
+        set -- "$@" ${arg}
+    done
     # IFS=' '
     # read -ra args <<< "${ORB_EVAL_ARGUMENTS}"
     # for arg in "${args[@]}"
@@ -44,8 +43,6 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     #     set -- "$@" "${arg}"
     # done
 
-    ORB_EVAL_ARGUMENTS="$(echo "$ORB_EVAL_ARGUMENTS" | tr -d "'")"
-    set -- "$@" "${ORB_EVAL_ARGUMENTS}"
 fi
 
 aws s3 cp "${ORB_EVAL_FROM}" "${ORB_EVAL_TO}" --profile "${ORB_EVAL_PROFILE_NAME}" "$@"
