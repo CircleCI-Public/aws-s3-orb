@@ -21,29 +21,31 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     # echo "$@"
 
     # Split the string into individual arguments
-    IFS=' ' 
-    # read -ra args <<< "$ORB_EVAL_ARGUMENTS"
-    set --
-    modified_args=()
+    # IFS=' ' 
+    # # read -ra args <<< "$ORB_EVAL_ARGUMENTS"
+    # set --
+    # modified_args=()
 
-    # Iterate over the arguments and remove single quotes
-    for arg in ${ORB_EVAL_ARGUMENTS}; do
-        # Check if the argument starts with a double quote
-        if [[ $arg == \"* ]]; then
-            modified_args+=("$arg")  # Preserve double-quoted argument as is
-        else
-            # Remove single quotes from the argument
-            modified_args+=("${arg//\'/}")
-        fi
-    done
-    # Print the modified arguments
-    printf '%s\n' "${modified_args[@]}"
-    result=$(printf '%s ' "${modified_args[@]}" | tr -d "'")
-    set --
-    for arg in ${result}; do
-        set -- "$@" "${arg}"
-    done
-    
+    # # Iterate over the arguments and remove single quotes
+    # for arg in ${ORB_EVAL_ARGUMENTS}; do
+    #     # Check if the argument starts with a double quote
+    #     if [[ $arg == \"* ]]; then
+    #         modified_args+=("$arg")  # Preserve double-quoted argument as is
+    #     else
+    #         # Remove single quotes from the argument
+    #         modified_args+=("${arg//\'/}")
+    #     fi
+    # done
+    # # Print the modified arguments
+    # printf '%s\n' "${modified_args[@]}"
+    # result=$(printf '%s ' "${modified_args[@]}" | tr -d "'")
+    # set --
+    # for arg in ${result}; do
+    #     set -- "$@" "${arg}"
+    # done
+
+    eval "ORB_EVAL_ARGUMENTS=$ORB_EVAL_ARGUMENTS"
+    set -- "$@" "${ORB_EVAL_ARGUMENTS}"
 fi
 
 aws s3 cp "${ORB_EVAL_FROM}" "${ORB_EVAL_TO}" --profile "${ORB_EVAL_PROFILE_NAME}" "$@"
