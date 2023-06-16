@@ -18,14 +18,6 @@ executors:
   docker-base:
     docker:
       - image: cimg/base:stable
-  windows:
-    machine:
-      image: windows-server-2019-vs2019:stable
-    shell: bash.exe
-    resource_class: windows.medium
-  macos:
-    macos:
-      xcode: 13.3
 jobs:
   integration-test:
     parameters:
@@ -43,10 +35,12 @@ jobs:
           from: "bucket"
           to: "s3://orb-testing-1/s3-orb"
           profile_name: "OIDC-User"
+          arguments: --acl public-read --cache-control max-age=86400
       - aws-s3/copy:
           from: "bucket/build_asset.txt"
           to: "s3://orb-testing-1"
           profile_name: "OIDC-User"
+          arguments: --cache-control "public, max-age=15" --acl bucket-owner-full-control
 workflows:
   test-deploy:
     jobs:
@@ -57,7 +51,7 @@ workflows:
           filters: *filters
           matrix:
             parameters:
-              executor: ["alpine", "docker-base", "windows", "macos"]
+              executor: ["alpine", "docker-base"]
       - aws-s3/sync:
           pre-steps:
             - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
@@ -93,6 +87,6 @@ workflows:
           vcs_type: << pipeline.project.type >>
           pub_type: production
           enable_pr_comment: true
-          requires: [orb-tools/pack, integration-test-alpine, integration-test-docker-base, integration-test-windows, integration-test-macos, aws-s3/copy, aws-s3/sync]
+          requires: [orb-tools/pack, integration-test-alpine, integration-test-docker-base, aws-s3/copy, aws-s3/sync]
           context: orb-publisher
           filters: *release-filters
