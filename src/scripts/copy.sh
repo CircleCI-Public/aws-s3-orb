@@ -21,12 +21,13 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     # echo "$@"
 
     # Split the string into individual arguments
-    IFS=' ' read -ra args <<< "$ORB_EVAL_ARGUMENTS"
-
+    IFS=' ' 
+    # read -ra args <<< "$ORB_EVAL_ARGUMENTS"
+    set --
     modified_args=()
 
     # Iterate over the arguments and remove single quotes
-    for arg in "${args[@]}"; do
+    for arg in ${ORB_EVAL_ARGUMENTS}; do
         # Check if the argument starts with a double quote
         if [[ $arg == \"* ]]; then
             modified_args+=("$arg")  # Preserve double-quoted argument as is
