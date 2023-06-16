@@ -38,11 +38,9 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     done
     # Print the modified arguments
     printf '%s\n' "${modified_args[@]}"
-    for arg in "${modified_args[@]}"
-    do
-        set -- "$@" "${arg}"
-    done
-    echo "$@"
+    result=$(printf '%s\n' "${modified_args[@]}")
+    
+    set -- "$@" "${result}"
 
 
 fi
