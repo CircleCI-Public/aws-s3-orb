@@ -39,10 +39,11 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     # Print the modified arguments
     printf '%s\n' "${modified_args[@]}"
     result=$(printf '%s ' "${modified_args[@]}" | tr -d "'")
+    set --
+    for arg in ${result}; do
+        set -- "$@" "${arg}"
+    done
     
-    set -- "$@" "${result}"
-
-
 fi
 
 aws s3 cp "${ORB_EVAL_FROM}" "${ORB_EVAL_TO}" --profile "${ORB_EVAL_PROFILE_NAME}" "$@"
