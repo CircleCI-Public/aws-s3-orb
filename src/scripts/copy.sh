@@ -38,7 +38,7 @@ if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     done
     # Print the modified arguments
     printf '%s\n' "${modified_args[@]}"
-    result=$(printf '%s ' "${modified_args[@]}" | tr -f "'")
+    result=$(printf '%s ' "${modified_args[@]}" | tr -d "'")
     
     set -- "$@" "${result}"
 
