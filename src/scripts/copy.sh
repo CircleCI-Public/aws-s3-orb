@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -x
 ORB_EVAL_FROM=$(circleci env subst "${ORB_EVAL_FROM}")
 ORB_EVAL_TO=$(circleci env subst "${ORB_EVAL_TO}")
@@ -8,8 +8,8 @@ ORB_EVAL_PROFILE_NAME=$(circleci env subst "${ORB_EVAL_PROFILE_NAME}")
 if [ -n "${ORB_EVAL_ARGUMENTS}" ]; then
     IFS=' '
     set --
-    for arg in ${ORB_EVAL_ARGUMENTS}; do
-        set -- "$@" ${arg}
+    for arg in $(echo "${ORB_EVAL_ARGUMENTS}" | sed 's/,[ ]*/,/g'); do
+        set -- "$@" "${arg}"
     done
     # IFS=' '
     # read -ra args <<< "${ORB_EVAL_ARGUMENTS}"
