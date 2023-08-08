@@ -8,7 +8,7 @@ parameters:
     type: string
     description: A local target or s3 destination
   arguments:
-    description: |  
+    description: |
       If you wish to pass any additional arguments to the aws copy command (i.e. -sse).
       Note: all arguments must be on a single line. Passing multi-line values to this parameter is not supported.
     default: ''
