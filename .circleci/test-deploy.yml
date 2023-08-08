@@ -41,7 +41,7 @@ jobs:
           to: "s3://orb-testing-1"
           profile_name: "OIDC-User"
           arguments: >-
-            -cache-control "public, max-age=15" 
+            --cache-control "public, max-age=15" 
             --acl bucket-owner-full-control
 workflows:
   test-deploy:
