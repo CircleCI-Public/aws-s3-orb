@@ -13,7 +13,7 @@ release-filters: &release-filters
     only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 executors:
   alpine:
-    shell: bash -eox pipefail
+    shell: sh -eox pipefail
     docker:
       - image: alpine:latest
   docker-base:
