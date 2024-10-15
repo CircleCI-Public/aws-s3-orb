@@ -17,6 +17,7 @@ executors:
     docker:
       - image: alpine:latest
   docker-base:
+    shell: bash -eox pipefail
     docker:
       - image: cimg/base:stable
 jobs:
@@ -70,7 +71,8 @@ workflows:
           matrix:
             alias: sync
             parameters:
-              arguments: ["'--exclude *.hmtl' '--cache-control public,max-age=31536000,immutable'", "", "--delete --exclude '.*'"] 
+              arguments: ["'--exclude *.hmtl' '--cache-control public,max-age=31536000,immutable'", "", "--delete --exclude '.*'"]
+              executor: ["alpine", "docker-base"]
           filters: *filters
       - aws-s3/copy:
           pre-steps:
