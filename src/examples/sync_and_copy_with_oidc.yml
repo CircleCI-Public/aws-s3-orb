@@ -9,7 +9,7 @@ usage:
   orbs:
     aws-s3: circleci/aws-s3@4.0
     # Importing aws-cli orb is required
-    aws-cli: circleci/aws-cli@4.0
+    aws-cli: circleci/aws-cli@5.1.1
   jobs:
     sync_and_copy:
       docker:
