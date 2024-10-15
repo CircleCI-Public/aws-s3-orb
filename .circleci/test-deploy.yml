@@ -60,10 +60,10 @@ workflows:
             - run: |
                 cd ~/ 
                 mkdir bucket 
-                # echo "lorem ipsum" > bucket/build_asset.txt
-                # echo "ipsum lorem" > bucket/.hello
-                # echo "hello world" > bucket/index.html
-                # echo "another file" > bucket/hello.txt
+                echo "lorem ipsum" > bucket/build_asset.txt
+                echo "ipsum lorem" > bucket/.hello
+                echo "hello world" > bucket/index.html
+                echo "another file" > bucket/hello.txt
           auth:
             - aws-cli/setup:
                 role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
@@ -76,7 +76,7 @@ workflows:
           matrix:
             alias: sync
             parameters:
-              arguments: ["--delete"]
+              arguments: ["--delete --exclude=*.hmtl"]
               executor: ["alpine", "docker-base"]
           filters: *filters
       - aws-s3/copy:
