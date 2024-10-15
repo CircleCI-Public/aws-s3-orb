@@ -76,7 +76,7 @@ workflows:
           matrix:
             alias: sync
             parameters:
-              arguments: ["--delete --exclude=*.hmtl"]
+              arguments: ["--delete"]
               executor: ["alpine", "docker-base"]
           filters: *filters
       - aws-s3/copy:
