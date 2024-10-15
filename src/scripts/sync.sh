@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo $ORB_STR_ARGUMENTS
 ORB_EVAL_FROM="$(circleci env subst "${ORB_EVAL_FROM}")"
 ORB_EVAL_TO="$(circleci env subst "${ORB_EVAL_TO}")"
 ORB_STR_ARGUMENTS="$(echo "${ORB_STR_ARGUMENTS}" | circleci env subst)"
