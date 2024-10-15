@@ -55,7 +55,6 @@ workflows:
             parameters:
               executor: ["alpine", "docker-base"]
       - aws-s3/sync:
-          name: sync-simple
           pre-steps:
             - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
           auth:
@@ -66,22 +65,12 @@ workflows:
           from: "$HOME/bucket"
           to: "s3://orb-testing-1/s3-orb"
           profile_name: "OIDC-User"
+          arguments: 
           context: [CPE-OIDC]
-          filters: *filters
-      - aws-s3/sync:
-          name: sync-with-args
-          pre-steps:
-            - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
-          auth:
-            - aws-cli/setup:
-                role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
-                role_session_name: "Test-session"
-                profile_name: "OIDC-User"
-          from: "$HOME/bucket"
-          to: "s3://orb-testing-1/s3-orb"
-          profile_name: "OIDC-User"
-          arguments: "'--exclude *.hmtl' '--cache-control public,max-age=31536000,immutable'"
-          context: [CPE-OIDC]
+          matrix:
+            alias: sync
+            parameters:
+              arguments: ["'--exclude *.hmtl' '--cache-control public,max-age=31536000,immutable'", ""] 
           filters: *filters
       - aws-s3/copy:
           pre-steps:
@@ -97,7 +86,7 @@ workflows:
           context: [CPE-OIDC]
           filters: *filters
           requires:
-            - aws-s3/sync
+            - sync
       - orb-tools/pack:
           filters: *release-filters
       - orb-tools/publish:
@@ -105,6 +94,6 @@ workflows:
           vcs_type: << pipeline.project.type >>
           pub_type: production
           enable_pr_comment: true
-          requires: [orb-tools/pack, integration-test, aws-s3/copy, sync-simple, sync-with-args]
+          requires: [orb-tools/pack, integration-test, aws-s3/copy, sync]
           context: orb-publisher
           filters: *release-filters
