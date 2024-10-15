@@ -61,7 +61,7 @@ workflows:
                 cd ~/ 
                 mkdir bucket 
                 echo "lorem ipsum" > bucket/build_asset.txt
-                echo "ipsum lorem" > bucket/.hello`
+                echo "ipsum lorem" > bucket/.hello
                 echo "hello world" > bucket/index.html
                 echo "another file" > bucket/hello.txt
           auth:
