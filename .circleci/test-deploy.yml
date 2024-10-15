@@ -70,7 +70,7 @@ workflows:
           matrix:
             alias: sync
             parameters:
-              arguments: ["'--exclude *.hmtl' '--cache-control public,max-age=31536000,immutable'", ""] 
+              arguments: ["'--exclude *.hmtl' '--cache-control public,max-age=31536000,immutable'", "", "--delete --exclude '.*'"] 
           filters: *filters
       - aws-s3/copy:
           pre-steps:
