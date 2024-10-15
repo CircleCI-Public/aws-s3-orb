@@ -57,7 +57,13 @@ workflows:
               executor: ["alpine", "docker-base"]
       - aws-s3/sync:
           pre-steps:
-            - run: cd ~/ && mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+            - run: |
+                cd ~/ 
+                mkdir bucket 
+                echo "lorem ipsum" > bucket/build_asset.txt
+                echo "ipsum lorem" > bucket/.hello
+                echo "hello world" > bucket/index.html
+                echo "another file" > bucket/hello.txt
           auth:
             - aws-cli/setup:
                 role_arn: arn:aws:iam::122211685980:role/CPE_S3_OIDC_TEST
