@@ -76,7 +76,7 @@ workflows:
           matrix:
             alias: sync
             parameters:
-              arguments: ["--delete --exclude *.hmtl --cache-control public,max-age=31536000,immutable", "--delete --exclude '.*'"]
+              arguments: ["--delete --exclude *.hmtl"]
               executor: ["alpine", "docker-base"]
           filters: *filters
       - aws-s3/copy:
