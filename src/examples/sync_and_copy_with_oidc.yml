@@ -7,7 +7,7 @@ description: >
 usage:
   version: 2.1
   orbs:
-    aws-s3: circleci/aws-s3@4.0
+    aws-s3: circleci/aws-s3@4.1
     # Importing aws-cli orb is required
     aws-cli: circleci/aws-cli@5.1.1
   jobs:
