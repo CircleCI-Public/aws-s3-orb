@@ -28,7 +28,7 @@ parameters:
     default: "on_success"
 steps:
   - run:
-      name: S3 Sync
+      name: S3 Sync << parameters.from >> -> << parameters.to >>
       when: <<parameters.when>>
       environment:
         ORB_EVAL_FROM: <<parameters.from>>
