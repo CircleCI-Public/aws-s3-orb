@@ -19,7 +19,9 @@ parameters:
     description: |
       The authentication method used to access your AWS account. Import the aws-cli orb in your config and
       provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
+      If not provided, authentication will be handled by the environment (e.g., IAM roles, environment variables).
     type: steps
+    default: []
   when:
     description: |
       Add the when attribute to a job step to override its default behavior
@@ -34,7 +36,9 @@ parameters:
 executor: << parameters.executor >>
 steps:
   - checkout
-  - steps: <<parameters.auth>>
+  - when:
+      condition: <<parameters.auth>>
+      steps: <<parameters.auth>>
   - copy:
       when: <<parameters.when>>
       from: <<parameters.from>>
