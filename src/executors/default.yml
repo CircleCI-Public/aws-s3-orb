@@ -5,7 +5,7 @@ parameters:
     description: >
       Select any of the available tags here: https://circleci.com/developer/images/image/cimg/aws.
     type: string
-    default: "2023.05"
+    default: "2026.04.1"
   resource_class:
     description: Configure the executor resource class
     type: enum
